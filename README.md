@@ -68,6 +68,11 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 
 <!-- 
-create tables
-make rewlations
+1- create tables
+
+2- make rewlations
+
+3-1- create seeders -- php artisan make:seeder LessonTagSeeder
+3-2- create factories -- php artisan make:factory LessonTagFactory --model=LessonTag
+3-3- composer dump-autoload , php artisan migrate:fresh --seed
  -->
