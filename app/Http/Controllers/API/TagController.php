@@ -13,9 +13,15 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        return Tag::all();
+        $tags = Tag::all();
+
+        return response()->json(
+            ['data' => $tags->toArray()],
+            200
+        );
     }
 
     /**
@@ -26,8 +32,14 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        return Tag::create($request->all());
+        $tag = Tag::create($request->all());
+
+        return response()->json([
+            'data' => $tag,
+            'message' => 'Tag created successfully'
+        ], 201);
     }
+
 
     /**
      * Display the specified resource.
@@ -35,10 +47,17 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
+
+
     public function show($id)
     {
-        return Tag::find($id);
+        $tag = Tag::findOrFail($id);
+
+        return response()->json([
+            'data' => $tag,
+        ], 200);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -47,13 +66,18 @@ class TagController extends Controller
      * @param  \App\Models\Tag  $tag
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
         $tag = Tag::findOrFail($id);
         $tag->update($request->all());
 
-        return $tag;
+        return response()->json([
+            'data' => $tag,
+            'message' => 'Tag updated successfully'
+        ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -63,7 +87,10 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        Tag::find($id)->delete();
-        return 204;
+        $tag = Tag::findOrFail($id);
+        $tag->delete();
+
+        return response()->json(null, 204);
     }
+
 }

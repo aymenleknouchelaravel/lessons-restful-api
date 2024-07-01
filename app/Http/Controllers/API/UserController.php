@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $users = User::all();
+        return response()->json(
+            ['data' => $users->toArray()],
+            200
+        );
     }
 
     /**
@@ -26,19 +31,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return User::create($request->all());
+        $user = User::create($request->all());
+
+        return response()->json([
+            'data' => $user,
+            'message' => 'User created successfully'
+        ], 201); // 201 Created status code
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
-        return User::find($id);
+        $user = User::findOrFail($id);
+
+        return response()->json([
+            'data' => $user,
+        ], 200);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -51,8 +61,13 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
-        return $user;
+
+        return response()->json([
+            'data' => $user,
+            'message' => 'User updated successfully'
+        ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -60,9 +75,13 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
-        User::find($id)->delete();
-        return 204;
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json(null, 204);
     }
+
 }

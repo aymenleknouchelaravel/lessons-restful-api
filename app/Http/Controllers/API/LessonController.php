@@ -15,8 +15,13 @@ class LessonController extends Controller
      */
     public function index()
     {
-        return Lesson::all();
+        $lessons = Lesson::all();
+
+        return response()->json([
+            'data' => $lessons
+        ], 200);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -26,7 +31,12 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        return Lesson::create($request->all());
+        $lesson = Lesson::create($request->all());
+
+        return response()->json([
+            'data' => $lesson,
+            'message' => 'Lesson created successfully',
+        ], 201);
     }
 
     /**
@@ -37,7 +47,11 @@ class LessonController extends Controller
      */
     public function show($id)
     {
-        return Lesson::find($id);
+        $lesson = Lesson::findOrFail($id);
+
+        return response()->json([
+            'data' => $lesson,
+        ], 200);
     }
 
     /**
@@ -49,9 +63,13 @@ class LessonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $lesson = Lesson::findOrFail($id);
-        $lesson->update($request->all());
-        return $lesson;
+        $Lesson = Lesson::findOrFail($id);
+        $Lesson->update($request->all());
+
+        return response()->json([
+            'data' => $Lesson,
+            'message' => 'Lesson updated successfully'
+        ], 200);
     }
 
     /**
@@ -62,7 +80,9 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
-        Lesson::find($id)->delete();
-        return 204;
+        $lesson = Lesson::findOrFail($id);
+        $lesson->delete();
+
+        return response()->json(null, 204);
     }
 }

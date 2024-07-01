@@ -6,8 +6,6 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\RelationshipController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
-use App\Models\Lesson;
 
 
 
@@ -35,19 +33,7 @@ Route::group(['prefix' => '/v1'], function () {
     Route::get('users/{id}/lessons', [RelationshipController::class, 'user_lessons']);
     Route::get('lessons/{id}/tags', [RelationshipController::class, 'lesson_tags']);
     Route::get('tags/{id}/lessons', [RelationshipController::class, 'tag_lessons']);
-
-    // Route::redirect('lesson', 'lessons');
-
-    Route::any(
-        'lesson',
-        function () {
-            $message = "this is message";
-            return Response::json([
-                'data' => $message,
-                'link' => url('documentation/api'),
-            ], 404);
-        }
-    );
+    
 });
 
 // Route::group(['prefix' => '/v2'], function () {

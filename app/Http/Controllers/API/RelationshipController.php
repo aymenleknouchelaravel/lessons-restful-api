@@ -13,17 +13,26 @@ class RelationshipController extends Controller
 {
     public function user_lessons($id)
     {
-        $lessons = User::find($id)->lessons;
-        return $lessons;
+        $user = User::findOrFail($id);
+
+        $lessons = $user->lessons;
+        return response()->json(['data' => $lessons], 200);
     }
+
     public function lesson_tags($id)
     {
-        $tags = Lesson::find($id)->tags;
-        return $tags;
+        $lesson = Lesson::findOrFail($id);
+
+        $tags = $lesson->tags;
+        return response()->json(['data' => $tags], 200);
     }
+
     public function tag_lessons($id)
     {
-        $lessons = Tag::find($id)->lessons;
-        return $lessons;
+        $tag = Tag::find($id);
+
+        $lessons = $tag->lessons;
+        return response()->json(['data' => $lessons], 200);
     }
+
 }
