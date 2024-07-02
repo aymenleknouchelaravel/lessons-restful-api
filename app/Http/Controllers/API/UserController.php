@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User as UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,11 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return response()->json(
-            ['data' => $users->toArray()],
-            200
-        );
+        $users = UserResource::collection(User::all());
+        return $users->response()->setStatusCode(200);
     }
 
     /**
@@ -36,17 +34,19 @@ class UserController extends Controller
         return response()->json([
             'data' => $user,
             'message' => 'User created successfully'
-        ], 201); // 201 Created status code
+        ], 201);
     }
 
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = new UserResource(User::findOrFail($id));
 
-        return response()->json([
-            'data' => $user,
-        ], 200);
+        return $user->response()->setStatusCode(200, 'User Returned Succefuly');
+
+        // return response()->json([
+        //     'data' => $user,
+        // ], 200);
     }
 
 
