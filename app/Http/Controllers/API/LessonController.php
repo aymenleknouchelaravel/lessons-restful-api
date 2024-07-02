@@ -10,11 +10,6 @@ use App\Http\Resources\Lesson as LessonResource;
 
 class LessonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $lessons = LessonResource::collection(Lesson::all());
@@ -38,12 +33,6 @@ class LessonController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Lesson  $lesson
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $lessons = new LessonResource(Lesson::all());
