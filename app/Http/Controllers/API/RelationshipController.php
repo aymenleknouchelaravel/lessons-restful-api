@@ -13,10 +13,19 @@ class RelationshipController extends Controller
 {
     public function user_lessons($id)
     {
-        $user = User::findOrFail($id);
+        $lessons = User::findOrFail($id)->lessons;
+        $fields = array();
+        $filtred = array();
+        foreach ($lessons as $lesson) {
+            $fields['title'] = $lesson->title;
+            $fields['body'] = $lesson->body;
+            $filtred[] = $fields;
+        }
 
-        $lessons = $user->lessons;
-        return response()->json(['data' => $lessons], 200);
+        return response()->json(
+            ['data' => $filtred],
+            200
+        );
     }
 
     public function lesson_tags($id)
@@ -32,6 +41,8 @@ class RelationshipController extends Controller
         $tag = Tag::find($id);
 
         $lessons = $tag->lessons;
+
+        // Return lessons as JSON response
         return response()->json(['data' => $lessons], 200);
     }
 
