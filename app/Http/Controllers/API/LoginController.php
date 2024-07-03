@@ -7,18 +7,26 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\User as UserResource;
+use Illuminate\Support\Facades\Hash;
 
 
 class LoginController extends Controller
 {
-
     public function login(Request $request)
     {
-        $user = User::where('email', 'like', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json(['error' => 'Invalid credentials'], 401);
+        }
         $accessToken = $user->createToken('Access Token')->accessToken;
 
         return response()->json([
-            'user' => new UserResource($user),
+            'user' => $user,
             'access_token' => $accessToken,
         ]);
     }
