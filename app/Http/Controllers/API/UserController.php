@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers\API;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User as UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+
 class UserController extends Controller
 {
-    
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index()
     {
         $users = UserResource::collection(User::all());
@@ -25,7 +32,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create($request->all());
+        $user = User::create(
+            [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]
+        );
 
         return response()->json([
             'data' => $user,

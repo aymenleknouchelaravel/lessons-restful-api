@@ -10,6 +10,11 @@ use App\Http\Resources\Lesson as LessonResource;
 
 class LessonController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     public function index()
     {
         $lessons = LessonResource::collection(Lesson::all());

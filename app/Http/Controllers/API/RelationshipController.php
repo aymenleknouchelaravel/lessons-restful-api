@@ -11,6 +11,11 @@ use App\Models\Tag;
 
 class RelationshipController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     public function user_lessons($id)
     {
         $lessons = User::findOrFail($id)->lessons;

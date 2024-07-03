@@ -77,4 +77,12 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 3-3- composer dump-autoload , php artisan migrate:fresh --seed
 
 4- php artisan make:controller API/LessonControler --api --model=Lesson
+
+5- laravel passport
+composer config -g repo.packagist composer https://packagist.org
+composer config -g github-protocols https ssh
+composer require laravel/passport -W
+php artisan passport:install
+
+
  -->
