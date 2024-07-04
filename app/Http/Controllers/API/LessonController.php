@@ -15,9 +15,10 @@ class LessonController extends Controller
     {
         $this->middleware('auth:api');
     }
-    public function index()
+    public function index(Request $request)
     {
-        $lessons = LessonResource::collection(Lesson::all());
+        $limit = $request->input('limit') <= 50 ? $request->input('limit') : 15;
+        $lessons = LessonResource::collection(Lesson::paginate($limit));
         return $lessons->response()->setStatusCode(200);
     }
 

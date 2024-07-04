@@ -18,9 +18,10 @@ class UserController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = UserResource::collection(User::all());
+        $limit = $request->input('limit') <= 50 ? $request->input('limit') : 15;
+        $users = UserResource::collection(User::paginate($limit));
         return $users->response()->setStatusCode(200);
     }
 

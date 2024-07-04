@@ -84,5 +84,8 @@ composer config -g github-protocols https ssh
 composer require laravel/passport -W
 php artisan passport:install
 
+6- Scheduling
+win + r
+taskshd.msc 
 
  -->

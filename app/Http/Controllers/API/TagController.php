@@ -19,9 +19,10 @@ class TagController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
-        $tags = Tag::all();
+        $limit = $request->input('limit') <= 50 ? $request->input('limit') : 15;
+        $tags = Tag::paginate($limit);
 
         return response()->json(
             ['data' => $tags->toArray()],

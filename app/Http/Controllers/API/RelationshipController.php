@@ -33,11 +33,18 @@ class RelationshipController extends Controller
         );
     }
 
-    public function lesson_tags($id)
+    public function lesson_tags($id, Request $request)
     {
         $lesson = Lesson::findOrFail($id);
 
-        $tags = $lesson->tags;
+        // Get tags associated with the lesson
+        $tags = $lesson->tags();
+
+        // Paginate the tags
+        $perPage = $request->query('per_page', 10); // Number of items per page, default 10
+        $tags = $tags->paginate($perPage);
+
+        // Return paginated tags as JSON response
         return response()->json(['data' => $tags], 200);
     }
 
