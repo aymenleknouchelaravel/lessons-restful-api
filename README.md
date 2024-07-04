@@ -83,6 +83,7 @@ composer config -g repo.packagist composer https://packagist.org
 composer config -g github-protocols https ssh
 composer require laravel/passport -W
 php artisan passport:install
+php artisan passport:client --personal
 
 6- Scheduling
 win + r
